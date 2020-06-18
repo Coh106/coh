@@ -1,0 +1,292 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ROUTEModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DESTINATIONS">
+          <Key>
+            <PropertyRef Name="DestinationID" />
+          </Key>
+          <Property Name="DestinationID" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DestinationCode" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EMPLOYEES">
+          <Key>
+            <PropertyRef Name="EmployeeID" />
+          </Key>
+          <Property Name="EmployeeID" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Gender" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="MaxLoc" Type="int" />
+          <Property Name="MinLoc" Type="int" />
+        </EntityType>
+        <EntityType Name="JOBS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeID" Type="nvarchar" MaxLength="20" />
+          <Property Name="DateJob" Type="datetime" Nullable="false" />
+          <Property Name="DestinationID" Type="nvarchar" MaxLength="20" />
+          <Property Name="WarehouseID" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="WAREHOUSES">
+          <Key>
+            <PropertyRef Name="WarehouseID" />
+          </Key>
+          <Property Name="WarehouseID" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="WarehouseCode" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="StreetNo" Type="int" />
+          <Property Name="Address1" Type="nvarchar(max)" />
+          <Property Name="Address2" Type="nvarchar(max)" />
+          <Property Name="Suburb" Type="nvarchar(max)" />
+          <Property Name="Postcode" Type="int" />
+          <Property Name="State" Type="nvarchar(max)" />
+          <Property Name="Country" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_JOBS_DESTINATIONS">
+          <End Role="DESTINATIONS" Type="Self.DESTINATIONS" Multiplicity="0..1" />
+          <End Role="JOBS" Type="Self.JOBS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DESTINATIONS">
+              <PropertyRef Name="DestinationID" />
+            </Principal>
+            <Dependent Role="JOBS">
+              <PropertyRef Name="DestinationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_JOBS_EMPLOYEES">
+          <End Role="EMPLOYEES" Type="Self.EMPLOYEES" Multiplicity="0..1" />
+          <End Role="JOBS" Type="Self.JOBS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EMPLOYEES">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="JOBS">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_JOBS_WAREHOUSES">
+          <End Role="WAREHOUSES" Type="Self.WAREHOUSES" Multiplicity="0..1" />
+          <End Role="JOBS" Type="Self.JOBS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WAREHOUSES">
+              <PropertyRef Name="WarehouseID" />
+            </Principal>
+            <Dependent Role="JOBS">
+              <PropertyRef Name="WarehouseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ROUTEModelStoreContainer">
+          <EntitySet Name="DESTINATIONS" EntityType="Self.DESTINATIONS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EMPLOYEES" EntityType="Self.EMPLOYEES" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JOBS" EntityType="Self.JOBS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WAREHOUSES" EntityType="Self.WAREHOUSES" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_JOBS_DESTINATIONS" Association="Self.FK_JOBS_DESTINATIONS">
+            <End Role="DESTINATIONS" EntitySet="DESTINATIONS" />
+            <End Role="JOBS" EntitySet="JOBS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_JOBS_EMPLOYEES" Association="Self.FK_JOBS_EMPLOYEES">
+            <End Role="EMPLOYEES" EntitySet="EMPLOYEES" />
+            <End Role="JOBS" EntitySet="JOBS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_JOBS_WAREHOUSES" Association="Self.FK_JOBS_WAREHOUSES">
+            <End Role="WAREHOUSES" EntitySet="WAREHOUSES" />
+            <End Role="JOBS" EntitySet="JOBS" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ROUTEModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="DESTINATION">
+          <Key>
+            <PropertyRef Name="DestinationID" />
+          </Key>
+          <Property Name="DestinationID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DestinationCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="JOBS" Relationship="Self.FK_JOBS_DESTINATIONS" FromRole="DESTINATIONS" ToRole="JOBS" />
+        </EntityType>
+        <EntityType Name="EMPLOYEE">
+          <Key>
+            <PropertyRef Name="EmployeeID" />
+          </Key>
+          <Property Name="EmployeeID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Gender" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MaxLoc" Type="Int32" />
+          <Property Name="MinLoc" Type="Int32" />
+          <NavigationProperty Name="JOBS" Relationship="Self.FK_JOBS_EMPLOYEES" FromRole="EMPLOYEES" ToRole="JOBS" />
+        </EntityType>
+        <EntityType Name="JOB">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="DateJob" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DestinationID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="WarehouseID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DESTINATION" Relationship="Self.FK_JOBS_DESTINATIONS" FromRole="JOBS" ToRole="DESTINATIONS" />
+          <NavigationProperty Name="EMPLOYEE" Relationship="Self.FK_JOBS_EMPLOYEES" FromRole="JOBS" ToRole="EMPLOYEES" />
+          <NavigationProperty Name="Warehouse" Relationship="Self.FK_JOBS_WAREHOUSES" FromRole="JOBS" ToRole="WAREHOUSES" />
+        </EntityType>
+        <EntityType Name="Warehouse">
+          <Key>
+            <PropertyRef Name="WarehouseID" />
+          </Key>
+          <Property Name="WarehouseID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="WarehouseCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StreetNo" Type="Int32" />
+          <Property Name="Address1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Address2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Suburb" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Postcode" Type="Int32" />
+          <Property Name="State" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="JOBS" Relationship="Self.FK_JOBS_WAREHOUSES" FromRole="WAREHOUSES" ToRole="JOBS" />
+        </EntityType>
+        <Association Name="FK_JOBS_DESTINATIONS">
+          <End Role="DESTINATIONS" Type="Self.DESTINATION" Multiplicity="0..1" />
+          <End Role="JOBS" Type="Self.JOB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DESTINATIONS">
+              <PropertyRef Name="DestinationID" />
+            </Principal>
+            <Dependent Role="JOBS">
+              <PropertyRef Name="DestinationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_JOBS_EMPLOYEES">
+          <End Role="EMPLOYEES" Type="Self.EMPLOYEE" Multiplicity="0..1" />
+          <End Role="JOBS" Type="Self.JOB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EMPLOYEES">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="JOBS">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_JOBS_WAREHOUSES">
+          <End Role="WAREHOUSES" Type="Self.Warehouse" Multiplicity="0..1" />
+          <End Role="JOBS" Type="Self.JOB" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WAREHOUSES">
+              <PropertyRef Name="WarehouseID" />
+            </Principal>
+            <Dependent Role="JOBS">
+              <PropertyRef Name="WarehouseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ROUTEEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DESTINATIONS" EntityType="Self.DESTINATION" />
+          <EntitySet Name="EMPLOYEES" EntityType="Self.EMPLOYEE" />
+          <EntitySet Name="JOBS" EntityType="Self.JOB" />
+          <EntitySet Name="WAREHOUSES" EntityType="Self.Warehouse" />
+          <AssociationSet Name="FK_JOBS_DESTINATIONS" Association="Self.FK_JOBS_DESTINATIONS">
+            <End Role="DESTINATIONS" EntitySet="DESTINATIONS" />
+            <End Role="JOBS" EntitySet="JOBS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_JOBS_EMPLOYEES" Association="Self.FK_JOBS_EMPLOYEES">
+            <End Role="EMPLOYEES" EntitySet="EMPLOYEES" />
+            <End Role="JOBS" EntitySet="JOBS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_JOBS_WAREHOUSES" Association="Self.FK_JOBS_WAREHOUSES">
+            <End Role="WAREHOUSES" EntitySet="WAREHOUSES" />
+            <End Role="JOBS" EntitySet="JOBS" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ROUTEModelStoreContainer" CdmEntityContainer="ROUTEEntities">
+          <EntitySetMapping Name="DESTINATIONS">
+            <EntityTypeMapping TypeName="ROUTEModel.DESTINATION">
+              <MappingFragment StoreEntitySet="DESTINATIONS">
+                <ScalarProperty Name="DestinationID" ColumnName="DestinationID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DestinationCode" ColumnName="DestinationCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EMPLOYEES">
+            <EntityTypeMapping TypeName="ROUTEModel.EMPLOYEE">
+              <MappingFragment StoreEntitySet="EMPLOYEES">
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="MaxLoc" ColumnName="MaxLoc" />
+                <ScalarProperty Name="MinLoc" ColumnName="MinLoc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JOBS">
+            <EntityTypeMapping TypeName="ROUTEModel.JOB">
+              <MappingFragment StoreEntitySet="JOBS">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="DateJob" ColumnName="DateJob" />
+                <ScalarProperty Name="DestinationID" ColumnName="DestinationID" />
+                <ScalarProperty Name="WarehouseID" ColumnName="WarehouseID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WAREHOUSES">
+            <EntityTypeMapping TypeName="ROUTEModel.Warehouse">
+              <MappingFragment StoreEntitySet="WAREHOUSES">
+                <ScalarProperty Name="WarehouseID" ColumnName="WarehouseID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="WarehouseCode" ColumnName="WarehouseCode" />
+                <ScalarProperty Name="StreetNo" ColumnName="StreetNo" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="Suburb" ColumnName="Suburb" />
+                <ScalarProperty Name="Postcode" ColumnName="Postcode" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
